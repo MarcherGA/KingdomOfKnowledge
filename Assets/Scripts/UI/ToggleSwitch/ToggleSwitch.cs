@@ -10,39 +10,36 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
 {
     [Header("Slider setup")]
     [SerializeField, Range(0, 1f)]
-    protected float sliderValue;
+    protected float _sliderValue;
     public bool CurrentValue { get; private set; }
 
     private bool _previousValue;
     private Slider _slider;
 
     [Header("Animation")]
-    [SerializeField, Range(0, 1f)] private float animationDuration = 0.5f;
-    [SerializeField]
-    private AnimationCurve slideEase =
-        AnimationCurve.EaseInOut(0, 0, 1, 1);
+    [SerializeField, Range(0, 1f)] private float _animationDuration = 0.5f;
+    [SerializeField] private AnimationCurve _slideEase = AnimationCurve.EaseInOut(0, 0, 1, 1);
 
     private Coroutine _animateSliderCoroutine;
 
     [Header("Events")]
-    [SerializeField] private UnityEvent onToggleOn;
-    [SerializeField] private UnityEvent onToggleOff;
+    [SerializeField] public UnityEvent<bool> onValueChanged;
 
     [Header("Text")]
-    [SerializeField] private TMP_Text text;
-    [SerializeField] private string toggleOnText;
-    [SerializeField] private string toggleOffText;
+    [SerializeField] private TMP_Text _text;
+    [SerializeField] private string _toggleOnText;
+    [SerializeField] private string _toggleOffText;
 
 
     private ToggleSwitchGroupManager _toggleSwitchGroupManager;
 
-    protected Action transitionEffect;
+    protected Action _transitionEffect;
 
     protected virtual void OnValidate()
     {
         SetupToggleComponents();
 
-        _slider.value = sliderValue;
+        _slider.value = _sliderValue;
     }
 
     private void SetupToggleComponents()
@@ -87,12 +84,19 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
     }
 
 
-    private void Toggle()
+    public void Toggle()
     {
         if (_toggleSwitchGroupManager != null)
             _toggleSwitchGroupManager.ToggleGroup(this);
         else
             SetStateAndStartAnimation(!CurrentValue);
+    }
+
+    public void Toggle(bool value)
+    {
+        if (CurrentValue == value) return;
+
+        Toggle();
     }
 
     public void ToggleByGroupManager(bool valueToSetTo)
@@ -108,10 +112,7 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
 
         if (_previousValue != CurrentValue)
         {
-            if (CurrentValue)
-                onToggleOn?.Invoke();
-            else
-                onToggleOff?.Invoke();
+            onValueChanged?.Invoke(CurrentValue);
         }
 
         if (_animateSliderCoroutine != null)
@@ -128,28 +129,28 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
 
         float time = 0;
 
-        if(text != null)
+        if(_text != null)
         {
-            text.text = CurrentValue ? toggleOnText : toggleOffText;
-            ToggleRectPositionLeftRight(text.rectTransform);
-            text.alpha = 0;
+            _text.text = CurrentValue ? _toggleOnText : _toggleOffText;
+            ToggleRectPositionLeftRight(_text.rectTransform);
+            _text.alpha = 0;
         }
 
-        if (animationDuration > 0)
+        if (_animationDuration > 0)
         {
-            while (time < animationDuration)
+            while (time < _animationDuration)
             {
                 time += Time.deltaTime;
 
-                float lerpFactor = slideEase.Evaluate(time / animationDuration);
-                _slider.value = sliderValue = Mathf.Lerp(startValue, endValue, lerpFactor);
+                float lerpFactor = _slideEase.Evaluate(time / _animationDuration);
+                _slider.value = _sliderValue = Mathf.Lerp(startValue, endValue, lerpFactor);
 
-                transitionEffect?.Invoke();
+                _transitionEffect?.Invoke();
 
                 yield return null;
             }
         }
-        text.alpha = 1;
+        _text.alpha = 1;
 
         _slider.value = endValue;
     }

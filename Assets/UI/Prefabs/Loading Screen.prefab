@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5705938169385008683}
   - component: {fileID: 1105139220369167631}
   - component: {fileID: 3633470835638773369}
+  - component: {fileID: 8718354184932146451}
   m_Layer: 5
   m_Name: Loading Screen
   m_TagString: Untagged
@@ -77,6 +78,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8718354184932146451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1032508051977662199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adb8fb68ecf83fc438b0beb8bc0bd286, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _loadingBar: {fileID: 9091808314626620432}
 --- !u!1 &1679321119830896609
 GameObject:
   m_ObjectHideFlags: 0
@@ -181,7 +195,7 @@ MonoBehaviour:
   m_text: "\u05D8\u05D5\u05E2\u05DF..."
   m_isRightToLeft: 1
   m_fontAsset: {fileID: 11400000, guid: d96ad761366c12a4a869f7d423ab2048, type: 2}
-  m_sharedMaterial: {fileID: 4297538808702304295, guid: d96ad761366c12a4a869f7d423ab2048, type: 2}
+  m_sharedMaterial: {fileID: 0}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

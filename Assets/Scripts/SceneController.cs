@@ -1,14 +1,13 @@
 using System.Collections;
-using TMPro;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class SceneController : MonoBehaviour
 {
     public static SceneController Instance;
-    [SerializeField] private GameObject _loadingScreen;
-    [SerializeField] private Slider _loadingBar;
+    [SerializeField] private ILoadingScreen _loadingScreen;
+    
 
 
     private float progress;
@@ -27,11 +26,30 @@ public class SceneController : MonoBehaviour
 
     private void Start()
     {
-        _loadingScreen.SetActive(false);
+        SceneManager.sceneLoaded += SceneLoaded;
+        FindLoadingScreen();
+    }   
+
+    private void FindLoadingScreen()
+    {
+        _loadingScreen = FindObjectsByType<LoadingScreen>(FindObjectsInactive.Include, FindObjectsSortMode.None).FirstOrDefault();
+        _loadingScreen?.SetActive(false);
+    }
+
+    private void SceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if(mode == LoadSceneMode.Single)
+        {
+            FindLoadingScreen();
+        }
     }
 
     public void LoadScene(string sceneName)
     {
+        if(_loadingScreen == null) {
+            SceneManager.LoadScene(sceneName);
+            return;
+        }
         StartCoroutine(LoadSceneWithLoadingScreen(sceneName));
     }
 
@@ -39,22 +57,16 @@ public class SceneController : MonoBehaviour
     {
         // Activate loading screen
         _loadingScreen.SetActive(true);
-        _loadingBar.value = 0;
+        _loadingScreen.Progress = progress;
 
         // Load the scene asynchronously
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
         while (!operation.isDone)
         {
             progress = Mathf.Clamp01(operation.progress / .9f);
-            _loadingBar.value = progress;
+            _loadingScreen.Progress = progress;
 
             yield return null;
-        }
-
-        if(_loadingScreen)
-        {
-            // Deactivate loading screen
-            _loadingScreen.SetActive(false);
         }
     }
 }

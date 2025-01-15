@@ -23,11 +23,11 @@ public class ResizeToScreen : MonoBehaviour
         float worldScreenWidth = worldScreenHeight / Screen.height * Screen.width;
 
         Vector3 xWidth = transform.localScale;
-        xWidth.x = worldScreenWidth / width;
+        xWidth.x = worldScreenWidth / width + 0.001f;
         transform.localScale = xWidth;
         //transform.localScale.x = worldScreenWidth / width;
         Vector3 yHeight = transform.localScale;
-        yHeight.y = worldScreenHeight / height;
+        yHeight.y = worldScreenHeight / height + 0.001f;
         transform.localScale = yHeight;
         //transform.localScale.y = worldScreenHeight / height; 
     }

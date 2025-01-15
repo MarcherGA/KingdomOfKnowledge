@@ -53,7 +53,7 @@ public class UserSignUiFlow : MonoBehaviour
 
         _backButton.gameObject.SetActive(false);
 
-        SceneController.Instance.LoadScene("HomeScene");
+        SceneController.Instance.LoadScene("MainMenuScene");
     }
 
     public void GameLoaded()
@@ -65,7 +65,7 @@ public class UserSignUiFlow : MonoBehaviour
 
     public void LoginFailed()
     {
-        string errorMessage = "айоййм/щн ощъощ е/ае сйсоа\nма рлерйн";
+        string errorMessage = "пїЅпїЅпїЅпїЅпїЅпїЅ/пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ/пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ\nпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ";
         ErrorPopup.Instance.ShowError(ref errorMessage);
     }
 

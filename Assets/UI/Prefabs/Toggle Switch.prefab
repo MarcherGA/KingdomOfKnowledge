@@ -501,9 +501,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54b39468f3544bc4c902adc547e941b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sliderValue: 0
-  animationDuration: 0.5
-  slideEase:
+  _sliderValue: 0
+  _animationDuration: 0.5
+  _slideEase:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -527,15 +527,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  onToggleOn:
+  onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  onToggleOff:
-    m_PersistentCalls:
-      m_Calls: []
-  text: {fileID: 7856758113547853431}
-  toggleOnText: "\u05D3\u05DC\u05D5\u05E7"
-  toggleOffText: "\u05DB\u05D1\u05D5\u05D9"
+  _text: {fileID: 7856758113547853431}
+  _toggleOnText: "\u05D3\u05DC\u05D5\u05E7"
+  _toggleOffText: "\u05DB\u05D1\u05D5\u05D9"
   backgroundImage: {fileID: 7042509812297383820}
   backgroundMaterial: {fileID: 2100000, guid: 8dfdaa745b2a9bd4db8b212cdfdd5e4f, type: 2}
   handleImage: {fileID: 1928367679794146590}

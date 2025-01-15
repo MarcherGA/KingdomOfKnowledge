@@ -31,12 +31,12 @@ public class ToggleSwitchColorChange : ToggleSwitch
 
     private void OnEnable()
     {
-        transitionEffect += ChangeColors;
+        _transitionEffect += ChangeColors;
     }
 
     private void OnDisable()
     {
-        transitionEffect -= ChangeColors;
+        _transitionEffect -= ChangeColors;
     }
 
     protected override void Awake()
@@ -57,10 +57,10 @@ public class ToggleSwitchColorChange : ToggleSwitch
     private void ChangeColors()
     {
         if (recolorBackground && _isBackgroundImageNotNull)
-            backgroundImage.color = Color.Lerp(backgroundColorOff, backgroundColorOn, sliderValue);
+            backgroundImage.color = Color.Lerp(backgroundColorOff, backgroundColorOn, _sliderValue);
 
         if (recolorHandle && _isHandleImageNotNull)
-            handleImage.color = Color.Lerp(handleColorOff, handleColorOn, sliderValue);
+            handleImage.color = Color.Lerp(handleColorOff, handleColorOn, _sliderValue);
     }
 }
 

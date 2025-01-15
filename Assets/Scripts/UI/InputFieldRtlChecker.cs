@@ -5,9 +5,9 @@ using TMPro; // If you're using TextMeshPro InputField; otherwise, use UnityEngi
 public class InputFieldRtlChecker : MonoBehaviour
 {
     private TMP_InputField _inputField; // Replace with InputField if not using TMP
-    [SerializeField] private bool changeAligment;
-    [SerializeField] private TextAlignmentOptions rtlAlignment = TextAlignmentOptions.Right;
-    [SerializeField] private TextAlignmentOptions ltrAlignment = TextAlignmentOptions.Left;
+    [SerializeField] private bool _changeAligment;
+    [SerializeField] private TextAlignmentOptions _rtlAlignment = TextAlignmentOptions.Right;
+    [SerializeField] private TextAlignmentOptions _ltrAlignment = TextAlignmentOptions.Left;
 
     private void Start()
     {
@@ -32,18 +32,18 @@ public class InputFieldRtlChecker : MonoBehaviour
         {
             _inputField.textComponent.isRightToLeftText = true;
 
-            if (changeAligment)
+            if (_changeAligment)
             {
-                _inputField.textComponent.alignment = rtlAlignment;
+                _inputField.textComponent.alignment = _rtlAlignment;
             }
         }
         else
         {
             _inputField.textComponent.isRightToLeftText = false;
 
-            if (changeAligment)
+            if (_changeAligment)
             {
-                _inputField.textComponent.alignment = ltrAlignment;
+                _inputField.textComponent.alignment = _ltrAlignment;
             }
         }
     }

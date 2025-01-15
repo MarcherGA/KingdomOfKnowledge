@@ -7,10 +7,10 @@ using UnityEngine;
 public class ToggleSwitchGroupManager : MonoBehaviour
 {
     [Header("Start Value")]
-    [SerializeField] private ToggleSwitch initialToggleSwitch;
+    [SerializeField] private ToggleSwitch _initialToggleSwitch;
 
     [Header("Toggle Options")]
-    [SerializeField] private bool allCanBeToggledOff;
+    [SerializeField] private bool _allCanBeToggledOff;
 
     private List<ToggleSwitch> _toggleSwitches = new List<ToggleSwitch>();
 
@@ -45,11 +45,11 @@ public class ToggleSwitchGroupManager : MonoBehaviour
             break;
         }
 
-        if (!areAllToggledOff || allCanBeToggledOff)
+        if (!areAllToggledOff || _allCanBeToggledOff)
             return;
 
-        if (initialToggleSwitch != null)
-            initialToggleSwitch.ToggleByGroupManager(true);
+        if (_initialToggleSwitch != null)
+            _initialToggleSwitch.ToggleByGroupManager(true);
         else
             _toggleSwitches[0].ToggleByGroupManager(true);
     }
@@ -59,7 +59,7 @@ public class ToggleSwitchGroupManager : MonoBehaviour
         if (_toggleSwitches.Count <= 1)
             return;
 
-        if (allCanBeToggledOff && toggleSwitch.CurrentValue)
+        if (_allCanBeToggledOff && toggleSwitch.CurrentValue)
         {
             foreach (var button in _toggleSwitches)
             {

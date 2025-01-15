@@ -62,21 +62,21 @@ public class ToggleSwitchMaterialChange : ToggleSwitch
 
     private void OnEnable()
     {
-        transitionEffect += TransitionImages;
+        _transitionEffect += TransitionImages;
     }
 
     private void OnDisable()
     {
-        transitionEffect -= TransitionImages;
+        _transitionEffect -= TransitionImages;
     }
 
     private void TransitionImages()
     {
         if (_isBackgroundImageNotNull && _isBackgroundMaterialNotNull)
-            backgroundImage.material.SetFloat("_MixValue", sliderValue);
+            backgroundImage.material.SetFloat("_MixValue", _sliderValue);
 
         if (_isHandleImageNotNull && _isHandleMaterialNotNull)
-            handleImage.material.SetFloat("_MixValue", sliderValue);
+            handleImage.material.SetFloat("_MixValue", _sliderValue);
     }
 }
 

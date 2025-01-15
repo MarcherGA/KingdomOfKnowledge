@@ -68,7 +68,7 @@ MonoBehaviour:
   m_text: "\u05E9\u05DD \u05DE\u05E9\u05EA\u05DE\u05E9 \u05E7\u05E6\u05E8"
   m_isRightToLeft: 1
   m_fontAsset: {fileID: 11400000, guid: d96ad761366c12a4a869f7d423ab2048, type: 2}
-  m_sharedMaterial: {fileID: 4297538808702304295, guid: d96ad761366c12a4a869f7d423ab2048, type: 2}
+  m_sharedMaterial: {fileID: -2148047665499739933, guid: d96ad761366c12a4a869f7d423ab2048, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
