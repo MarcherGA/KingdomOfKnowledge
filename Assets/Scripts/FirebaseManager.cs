@@ -10,6 +10,9 @@ using System.Collections.Generic;
 using System;
 using static PlayerCharacterCustomized.Customization.SaveObject;
 using System.Linq;
+using Firebase.Functions;
+using System.Collections;
+using UnityEngine.Networking;
 
 public class FirebaseManager : MonoBehaviour
 {
@@ -23,10 +26,11 @@ public class FirebaseManager : MonoBehaviour
     private FirebaseApp _app;
     private FirebaseAuth _auth;
     private FirebaseFirestore _firestore;
+    private FirebaseFunctions _functions;
 
     private void Awake()
     {
-        Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => {
+        Firebase.FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(async task => {
             var dependencyStatus = task.Result;
             if (dependencyStatus == Firebase.DependencyStatus.Available)
             {
@@ -37,6 +41,31 @@ public class FirebaseManager : MonoBehaviour
                 _firestore = FirebaseFirestore.DefaultInstance;
                 // Set a flag here to indicate whether Firebase is ready to use by your app.
                 onFirebaseInit?.Invoke();
+
+                Firebase.AppOptions secondaryAppOptions = new Firebase.AppOptions {
+                    ApiKey = "AIzaSyDb425attMzm9O3WVoduuRZK5-L3A7ZHeo",
+                    AppId = "1:309043197045:android:62f9922e74c7c80c39743c",
+                    ProjectId = "linksserver-ec8c3"
+                };
+                var secondaryApp = Firebase.FirebaseApp.Create(secondaryAppOptions, "LinksServer");
+                _functions = FirebaseFunctions.GetInstance(secondaryApp, "europe-west1");
+
+                helloWorld().ContinueWith((task) => {
+                    if (task.IsFaulted) {
+                        foreach (var inner in task.Exception.InnerExceptions) {
+                        if (inner is FunctionsException) {
+                            var e = (FunctionsException) inner;
+                            // Function error code, will be INTERNAL if the failure
+                            // was not handled properly in the function call.
+                            var code = e.ErrorCode;
+                            var message = e.Message;
+                        }
+                        }
+                    } else {
+                        string result = task.Result;
+                    }
+                });
+
             }
             else
             {
@@ -45,6 +74,30 @@ public class FirebaseManager : MonoBehaviour
                 // Firebase Unity SDK is not safe to use here.
             }
         });
+    }
+
+    private Task<string> helloWorld() {
+        // Call the function and extract the operation from the result.
+        var function = _functions.GetHttpsCallable("helloWorld");
+        return function.CallAsync().ContinueWith((task) => {
+            return (string) task.Result.Data;
+        });
+    }
+
+    IEnumerator GetText() {
+        UnityWebRequest www = UnityWebRequest.Get("https://www.my-server.com");
+        yield return www.SendWebRequest();
+ 
+        if (www.result != UnityWebRequest.Result.Success) {
+            Debug.Log(www.error);
+        }
+        else {
+            // Show results as text
+            Debug.Log(www.downloadHandler.text);
+ 
+            // Or retrieve results as binary data
+            byte[] results = www.downloadHandler.data;
+        }
     }
 
     public void SignInWithEmail(string email, string password)
